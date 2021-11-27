@@ -18,13 +18,13 @@ public class EmailController {
 
 
     //UM EMAIL PRA TER UM CHAMADO UNIVERSAL
-    @RequestMapping(path = "/send/{nome}/{msg}", method = RequestMethod.GET)
-    public String sendMail(@PathVariable("nome") String nomeUsuario,@PathVariable("msg") String mensagem) {
+    @RequestMapping(path = "/send/{nome}/{email}/{msg}", method = RequestMethod.GET)
+    public String sendMail(@PathVariable("nome") String nomeUsuario,@PathVariable("email") String emailUser,@PathVariable("msg") String mensagem) {
 
-        System.out.println("Disparou !!!!!");
+        System.out.println("Disparou email para "+nomeUsuario);
 
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setText(mensagem+"\n "+nomeUsuario);
+        message.setText(mensagem);
         message.setTo("tvsalastickmi@gmail.com");
         message.setFrom("tvsalastickmi@gmail.com");
 
@@ -40,12 +40,7 @@ public class EmailController {
 
 
 
-
-
-
-
-
-
+// CHAMADOS SEPARADOS
 
     @RequestMapping(path = "/cancelamento/{nome}", method = RequestMethod.GET)
     public String sendMailCancelamento(@PathVariable("nome") String nomeUsuario) {
