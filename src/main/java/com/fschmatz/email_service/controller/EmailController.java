@@ -21,14 +21,28 @@ public class EmailController {
     @RequestMapping(path = "/send/{nome}/{email}/{msg}", method = RequestMethod.GET)
     public String sendMail(@PathVariable("nome") String nomeUsuario,@PathVariable("email") String emailUser,@PathVariable("msg") String mensagem) {
 
-        System.out.println("Disparou email para "+nomeUsuario);
-
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText(mensagem);
-        message.setTo("tvsalastickmi@gmail.com");
+        message.setTo(emailUser);
         message.setFrom("tvsalastickmi@gmail.com");
 
+        //--------- TRATAMENTO DO SUBJECT
+
+        System.out.println(mensagem);
+        if(mensagem.contains("cancelada.")){
+            message.setSubject("Fschmatz Eventos LLC - Confirmação de Cancelamento");
+        }
+        else if(mensagem.contains("confirmada.")){
+            message.setSubject("Fschmatz Eventos LLC - Inscrição Confirmada");
+        }
+        else if(mensagem.contains("certificado.")){
+            message.setSubject("Fschmatz Eventos LLC - Link Validação");
+        }
+
+        //---------
+
         try {
+            System.out.println("Disparou email");
             mailSender.send(message);
             return "Email enviado com sucesso!";
         } catch (Exception e) {
